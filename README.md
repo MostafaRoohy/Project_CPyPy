@@ -1,14 +1,14 @@
-# CPyPy
+# CPy
 
-**Project_CPyPy** is a Python formatter that targets a **specific non-PEP8 personal style** optimized for fast visual parsing: aligned columns, explicit block terminators, and strong visual separation of logical parts.
+**CPy** is a Python formatter that targets a **specific non-PEP8 personal style** optimized for fast visual parsing: aligned columns, explicit block terminators, and strong visual separation of logical parts.
 
-The goal is not “standard formatting”. The goal is to make code **visually structured** so **I** can **feel** the relationships between lines before even read the details.
+The goal is not “standard formatting”. The goal is to make code **visually structured** so we can **feel** the relationships between lines before even read the details.
 
 ---
 
 ## Why this style exists
 
-### What CPyPy optimizes for
+### What CPy optimizes for
 - **Scanability**: see variable groups and dependencies immediately.
 - **Stable shape**: diffs stay readable because alignment is consistent.
 - **Explicit structure**: blocks are visually closed (`#`), returns are visually boxed (`return (...)`).
@@ -16,9 +16,44 @@ The goal is not “standard formatting”. The goal is to make code **visually s
 
 ---
 
-## Style showcase (PEP8 vs CPyPy)
+## Style showcase (PEP8 vs CPy)
+### Example 1 — long call signatures (alignment makes parameters scannable)
 
-### Example 1 — assignments and derived variables
+**Typical PEP8**
+
+```py
+result = backtest(
+    candles=df,
+    strategy=strategy,
+    fee_rate=0.0006,
+    slippage=0.0002,
+    max_positions=1,
+    allow_short=False,
+    start_ts=start_ts,
+    end_ts=end_ts,
+    warmup=500,
+)
+```
+
+**CPy style**
+
+```py
+result = backtest(
+    candles       = df,
+    strategy      = strategy,
+    fee_rate      = 0.0006,
+    slippage      = 0.0002,
+    max_positions = 1,
+    allow_short   = False,
+    start_ts      = start_ts,
+    end_ts        = end_ts,
+    warmup        = 500,
+)
+```
+
+---
+
+### Example 2 — assignments and derived variables
 
 **Typical PEP8**
 ```py
@@ -47,7 +82,7 @@ def compute_features(prices: list[float], window: int) -> dict[str, float]:
     }
 ```
 
-**CPyPy style**
+**CPy style**
 ```py
 def compute_features(prices:list[float], window:int) -> dict[str,float]:
 
@@ -80,41 +115,6 @@ def compute_features(prices:list[float], window:int) -> dict[str,float]:
 
 ---
 
-### Example 2 — long call signatures (alignment makes parameters scannable)
-
-**Typical PEP8**
-
-```py
-result = backtest(
-    candles=df,
-    strategy=strategy,
-    fee_rate=0.0006,
-    slippage=0.0002,
-    max_positions=1,
-    allow_short=False,
-    start_ts=start_ts,
-    end_ts=end_ts,
-    warmup=500,
-)
-```
-
-**CPyPy style**
-
-```py
-result = backtest(
-    candles       = df,
-    strategy      = strategy,
-    fee_rate      = 0.0006,
-    slippage      = 0.0002,
-    max_positions = 1,
-    allow_short   = False,
-    start_ts      = start_ts,
-    end_ts        = end_ts,
-    warmup        = 500,
-)
-```
-
----
 
 ### Example 3 — conditional logic (boolean connectors become visible structure)
 
@@ -127,7 +127,7 @@ if x > 0 and x < 10 and y != 0 and (mode == "fast" or mode == "safe"):
 return 0.0
 ```
 
-**CPyPy style**
+**CPy style**
 
 ```py
 if (x > 0  and  x < 10  and  y != 0  and  (mode == "fast"  or  mode == "safe")):
@@ -160,7 +160,7 @@ is_bull = close > open_
 is_bear = close < open_
 ```
 
-**CPyPy style**
+**CPy style**
 
 ```py
 open_ = row["open"]
@@ -189,7 +189,7 @@ from pathlib import Path
 from typing import Any, Callable, Iterable, Sequence
 ```
 
-**CPyPy style**
+**CPy style**
 
 ```py
 from dataclasses import dataclass
@@ -216,17 +216,17 @@ TF_TO_SECONDS = {
 }
 ```
 
-**CPyPy style**
+**CPy style**
 
 ```py
 TF_TO_SECONDS = ({
-    "TF_1s"   : 1,
-    "TF_5s"   : 5,
-    "TF_10s"  : 10,
-    "TF_1m"   : 60,
-    "TF_5m"   : 5 * 60,
-    "TF_15m"  : 15 * 60,
-    "TF_1h"   : 60 * 60,
+    "TF_1s"  : 1,
+    "TF_5s"  : 5,
+    "TF_10s" : 10,
+    "TF_1m"  : 60,
+    "TF_5m"  : 5 * 60,
+    "TF_15m" : 15 * 60,
+    "TF_1h"  : 60 * 60,
 })
 #
 ```
@@ -238,23 +238,23 @@ TF_TO_SECONDS = ({
 ### Format
 
 ```bash
-cpypy format path/to/file_or_dir
+CPy format path/to/file_or_dir
 ```
 
 ### Check
 
 ```bash
-cpypy check path/to/file_or_dir
+CPy check path/to/file_or_dir
 ```
 
 ---
 
 ## Configuration
 
-CPyPy reads configuration from `pyproject.toml`:
+CPy reads configuration from `pyproject.toml`:
 
 ```toml
-[tool.cpypy]
+[tool.CPy]
 enabled_rules = [
   "if_parentheses",
   "return_parentheses",
@@ -291,7 +291,7 @@ More rules exist/planned:
 
 More rule descriptions:
 
-* `doc/cpypy_rules.md`
+* `doc/CPy_rules.md`
 
 ---
 
