@@ -1,0 +1,61 @@
+{
+    "name": "cpy-formatter",
+    "displayName": "CPy Formatter",
+    "description": "Format the current Python file in the CPy personal style with one keyboard shortcut.",
+    "version": "0.1.0",
+    "publisher": "mostafaroohy",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mostafaroohy/cpy"
+    },
+    "engines": {
+        "vscode": "^1.75.0"
+    },
+    "categories": [
+        "Formatters"
+    ],
+    "main": "./extension.js",
+    "activationEvents": [
+        "onLanguage:python"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "cpy.formatFile",
+                "title": "CPy: Format File"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "cpy.formatFile",
+                "key": "ctrl+alt+c",
+                "mac": "cmd+alt+c",
+                "when": "editorTextFocus && editorLangId == python"
+            }
+        ],
+        "configuration": {
+            "title": "CPy",
+            "properties": {
+                "cpy.pythonPath": {
+                    "type": "string",
+                    "default": "python",
+                    "description": "Python interpreter used to run `-m cpy`. Use a full path to target a specific environment."
+                },
+                "cpy.executable": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Optional path to a standalone `cpy` executable. When set, it is used instead of `python -m cpy`."
+                },
+                "cpy.args": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "Extra arguments passed to CPy before the `format -` subcommand (e.g. [\"--config\", \"path/to/pyproject.toml\"])."
+                }
+            }
+        }
+    }
+}

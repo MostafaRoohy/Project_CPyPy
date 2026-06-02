@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name            = "cpy-formatter"
+version         = "0.1.0"
+description     = "A non-PEP8 personal-style Python code formatter (aligned columns, explicit block markers)."
+readme          = "README.md"
+requires-python = ">=3.11"
+license         = { text = "MIT" }
+authors         = [{ name = "Mostafa Roohy", email = "MostafaRoohy@protonmail.com" }]
+keywords        = ["formatter", "python", "code-style", "cpy"]
+dependencies    = []
+
+[project.scripts]
+cpy = "cpy.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/mostafaroohy/cpy"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cpy"]
+
+#######################################################################################################
+# CPy formatter configuration
+#
+
+[tool.cpy]
+enabled_rules = [
+    "if_parentheses",
+    "boolean_spacing",
+    "return_parentheses",
+    "align_assignments",
+    "block_end_marker",
+]
+disabled_rules = []
+#
