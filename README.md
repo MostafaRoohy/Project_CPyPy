@@ -270,6 +270,11 @@ disabled_rules = [
 
 ## Rules (will update more and more)
 
+Alignment groups span blank lines within an indent block; a comment, indent change, or non-matching
+line breaks the group.
+
+**Enabled by default**
+
 * `if_parentheses`
   Enforce `if ( ... ):`, `elif ( ... ):`, `while ( ... ):`
 
@@ -279,19 +284,37 @@ disabled_rules = [
 * `return_parentheses`
   Enforce `return (value)` (does not change bare `return`)
 
+* `blank_after_header`
+  Ensure one blank line after every `class` / `def` header (before the first statement or docstring)
+
 * `block_end_marker`
-  Enforce standalone `#` terminators (indent-aware)
+  Enforce standalone `#` terminators (indent-aware); each `if/elif/else` and `try/except/finally`
+  clause is closed individually; `#` lines next to `###…` banners are preserved
 
 * `align_assignments`
-  Align `=` within contiguous assignment groups
+  Align `=` within assignment groups
 
-More rules exist/planned:
+**Opt-in** (enable under `[tool.cpy]`)
 
-* `align_imports`, `align_dict_colons`, `typehint_spacing`, etc.
+* `align_imports`
+  Align `from X   import Y` and `import X  as Y` columns
+
+* `align_dict_colons`
+  Align `:` in simple one-entry-per-line dict literals
+
+* `align_annotations`
+  Align `:` and `=` columns in annotated declarations (`name : T = default`) — dataclass fields,
+  `Protocol` attributes, `self.x : T = ...`
+
+* `align_comments`
+  Align trailing `#` comments to a shared column within a stacked group
+
+* `typehint_spacing`
+  Function-signature spacing: `x:int`, `ddof:int=1`, `) -> Type:`
 
 More rule descriptions:
 
-* `doc/CPy_rules.md`
+* `doc/cpy_rules.md`
 
 ---
 

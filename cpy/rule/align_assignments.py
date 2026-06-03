@@ -82,6 +82,13 @@ class AlignAssignments:
 
         for line in lines:
 
+            # A blank line does NOT break a group: alignment spans blank lines within the same
+            # indent block (e.g. the whole __init__ shares one column).
+            if (line.is_blank):
+
+                continue
+            #
+
             parsed = self._parse(line)
 
             if (parsed is None  or  (current_indent is not None  and  line.indent != current_indent)):
@@ -130,6 +137,17 @@ class AlignAssignments:
         if (eq == -1):
 
             return (None)
+        #
+
+        # An annotated assignment (``x : T = v``) is owned by align_annotations, not us. Detect a
+        # top-level ':' before the '=' and bow out.
+        depths = bracket_depth_scan(masked)
+        for i in range(eq):
+
+            if (masked[i] == ":"  and  depths[i] == 0):
+
+                return (None)
+            #
         #
 
         lhs = code[:eq].rstrip()

@@ -50,9 +50,12 @@ def _build_registry() -> tuple[dict[str, Rule], list[str]]:
     from cpy.rule.if_parentheses     import IfParentheses
     from cpy.rule.boolean_spacing    import BooleanSpacing
     from cpy.rule.return_parentheses import ReturnParentheses
+    from cpy.rule.blank_after_header import BlankAfterHeader
     from cpy.rule.align_imports      import AlignImports
     from cpy.rule.align_dict_colons  import AlignDictColons
+    from cpy.rule.align_annotations  import AlignAnnotations
     from cpy.rule.align_assignments  import AlignAssignments
+    from cpy.rule.align_comments     import AlignComments
     from cpy.rule.block_end_marker   import BlockEndMarker
 
     ordered: list[Rule] = [
@@ -60,9 +63,12 @@ def _build_registry() -> tuple[dict[str, Rule], list[str]]:
         IfParentheses(),
         BooleanSpacing(),
         ReturnParentheses(),
+        BlankAfterHeader(),
         AlignImports(),
         AlignDictColons(),
+        AlignAnnotations(),
         AlignAssignments(),
+        AlignComments(),
         BlockEndMarker(),
     ]
 
@@ -78,18 +84,23 @@ DEFAULT_ORDER: list[str]              = [
     "if_parentheses",
     "boolean_spacing",
     "return_parentheses",
+    "blank_after_header",
     "align_imports",
     "align_dict_colons",
+    "align_annotations",
     "align_assignments",
+    "align_comments",
     "block_end_marker",
 ]
 
 # Rules that ship enabled by default. The optional alignment / typehint rules are off until a user
-# opts in, because they are the most parser-sensitive.
+# opts in, because they are the most parser-sensitive. blank_after_header is structural and safe, so
+# it ships on.
 DEFAULT_ENABLED: list[str] = [
     "if_parentheses",
     "boolean_spacing",
     "return_parentheses",
+    "blank_after_header",
     "align_assignments",
     "block_end_marker",
 ]

@@ -31,6 +31,7 @@ enabled_rules = [
     "if_parentheses",
     "boolean_spacing",
     "return_parentheses",
+    "blank_after_header",
     "align_assignments",
     "block_end_marker",
 ]

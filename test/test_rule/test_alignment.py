@@ -9,11 +9,26 @@ def test_aligns_group():
     assert run_rules(src, RULE) == out
 #
 
-def test_blank_line_breaks_group():
+def test_blank_line_spans_group():
 
+    # Alignment spans blank lines within the same indent block: all four share one column.
     src = "a = 1\nbb = 2\n\nc = 3\nddd = 4\n"
-    out = "a  = 1\nbb = 2\n\nc   = 3\nddd = 4\n"
+    out = "a   = 1\nbb  = 2\n\nc   = 3\nddd = 4\n"
     assert run_rules(src, RULE) == out
+#
+
+def test_comment_line_breaks_group():
+
+    src = "a = 1\nbb = 2\n# note\nc = 3\nddd = 4\n"
+    out = "a  = 1\nbb = 2\n# note\nc   = 3\nddd = 4\n"
+    assert run_rules(src, RULE) == out
+#
+
+def test_annotated_line_left_to_align_annotations():
+
+    # align_assignments must NOT touch an annotated assignment (that is align_annotations' job).
+    src = "x : int = 5\n"
+    assert run_rules(src, RULE) == src
 #
 
 def test_comparison_not_aligned():

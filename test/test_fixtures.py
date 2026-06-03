@@ -11,7 +11,7 @@ import pytest
 
 from cpy.config import Config
 from cpy.engine.pipeline import run
-from cpy.rule.base import DEFAULT_ENABLED
+from cpy.rule.base import DEFAULT_ORDER
 
 FIXTURE_DIR = Path(__file__).parent / "fixture"
 CASES       = sorted((FIXTURE_DIR / "in").glob("*.py"))
@@ -20,7 +20,8 @@ CASES       = sorted((FIXTURE_DIR / "in").glob("*.py"))
 def test_fixture(infile: Path):
 
     expected = (FIXTURE_DIR / "out" / infile.name).read_text(encoding="utf-8")
-    config   = Config(enabled_rules=list(DEFAULT_ENABLED))
+    # Fixtures exercise the full rule set (including the opt-in alignment rules).
+    config   = Config(enabled_rules=list(DEFAULT_ORDER))
 
     formatted = run(infile.read_text(encoding="utf-8"), config)
 

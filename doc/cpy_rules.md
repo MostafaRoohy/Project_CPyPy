@@ -18,10 +18,10 @@
 
 ## C) Class / function header spacing
 
-9. **Always a blank line after `class X:`** before the first content.
-10. **Usually a blank line after `def foo(...):`** before the first statement.
+*(implemented as `blank_after_header`)*
 
-    * Exception: when a docstring starts immediately, may place the docstring right away.
+9. **Always a blank line after `class X:`** before the first content.
+10. **Always a blank line after `def foo(...):`** before the first statement (including before a docstring). Multi-line signatures are handled by closing on the header's final `:`.
 
 ## D) Type-hint spacing rules
 
@@ -32,9 +32,10 @@
 
     * `ddof:int=1`, not `ddof: int = 1`
 13. **Return type arrow is spaced**: `) -> Type:`
-14. **Class/dataclass attribute annotations use spaces around `:` and are aligned in columns**
+14. **Class/dataclass attribute annotations use spaces around `:` and are aligned in columns** *(implemented as `align_annotations`; trailing comments aligned by `align_comments`)*
 
     * `ser_open      : pd.Series`
+    * with defaults the `=` column aligns too: `low     : Optional[float]     = None`
 
 ## E) Alignment rules (“columns” style)
 

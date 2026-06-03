@@ -112,11 +112,86 @@ class Line:
     #
 
     def set_content(self, new_content: str) -> None:
-        """Replace the code part of the line, keeping the existing indentation."""
+        """Replace the code part of the line, refreshing string/comment metadata to match."""
 
         self.content = new_content
         self.raw     = self.indent + new_content
+
+        # The original tokenizer-derived spans/comment column are now stale; rescan this single line
+        # so a later rule that re-splits it sees correct offsets.
+        (spans, comment_col) = scan_line_metadata(self.raw)
+        self.string_spans     = spans
+        self.comment_col      = comment_col
     #
+#
+
+#######################################################################################################
+# Single-line rescan (keeps metadata fresh after edits)
+#
+
+def scan_line_metadata(raw: str) -> tuple[list[tuple[int, int]], int | None]:
+    """
+    Scan one physical line for string spans and the first real comment column.
+
+    Used to refresh :class:`Line` metadata after an edit (the file-level tokenizer ran only on the
+    original text).  Handles single/triple quotes and backslash escapes; the first ``#`` outside a
+    string starts the comment.
+    """
+
+    spans       : list[tuple[int, int]] = []
+    comment_col : int | None            = None
+    i           = 0
+    n           = len(raw)
+    in_string   = False
+    quote       = ""
+    start       = 0
+
+    while (i < n):
+
+        ch = raw[i]
+
+        if (in_string):
+
+            if (ch == "\\"):
+
+                i += 2
+                continue
+            #
+            if (raw[i:i + len(quote)] == quote):
+
+                i += len(quote)
+                spans.append((start, i))
+                in_string = False
+                quote     = ""
+                continue
+            #
+            i += 1
+            continue
+        #
+
+        if (ch == "#"):
+
+            comment_col = i
+            break
+        #
+        if (ch in "\"'"):
+
+            quote     = (ch * 3) if (raw[i:i + 3] == ch * 3) else ch
+            in_string = True
+            start     = i
+            i        += len(quote)
+            continue
+        #
+
+        i += 1
+    #
+
+    if (in_string):
+
+        spans.append((start, n))
+    #
+
+    return (spans, comment_col)
 #
 
 #######################################################################################################
